@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Row, Col, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Routes, Route, useNavigate, useHistory } from 'react-router-dom';
 
@@ -25,7 +25,13 @@ const ResgisterPage = (props, args) => {
 
     const [errorData, setErrorData] = useState("0");
 
-
+    const fullnameReference = useRef(null);
+    const usernameReference = useRef(null);
+    const emailReference = useRef(null);
+    const passwordReference = useRef(null);
+    const confirmpasswordReference = useRef(null);
+    const fav_languageReference = useRef(null);
+    const pleaseCheckboxReference = useRef(null);
 
     const Login = () => {
 
@@ -63,18 +69,39 @@ const ResgisterPage = (props, args) => {
 
         console.log(info1)
 
-        if (!info1.fullname) setErrorData(1);
-        else if (!info1.username) setErrorData(2);
-        else if (!info1.email) setErrorData(3);
-        else if (!info1.password) setErrorData(4);
-        else if (!info1.confirmpassword) setErrorData(5);
-        else if (!info1.fav_language) setErrorData(6);
-        else if (!info1.pleaseCheckbox ) setErrorData(7);
+        if (!info1.fullname) {
+            setErrorData(1)
+            fullnameReference.current.focus()
+        }
+        else if (!info1.username) {
+            setErrorData(2)
+            usernameReference.current.focus()
+        }
+        else if (!info1.email) {
+            setErrorData(3)
+            emailReference.current.focus()
+        }
+        else if (!info1.password) {
+            setErrorData(4)
+            passwordReference.current.focus()
+        }
+        else if (!info1.confirmpassword) {
+            setErrorData(5)
+            confirmpasswordReference.current.focus()
+        }
+        else if (!info1.fav_language) {
+            setErrorData(6)
+            fav_languageReference.current.focus()
+        }
+        else if (!info1.pleaseCheckbox ) {
+        setErrorData(7)
+        pleaseCheckboxReference.current.focus()
+    }
         else {
             setErrorData('');
             console.log("hello")
 
-            navigate("/loginpage")
+            // navigate("/loginpage")
         }
 
     };
@@ -110,7 +137,7 @@ const ResgisterPage = (props, args) => {
 
                             <div className="col-lg-12 registerInput">
 
-                                <input className='my-2' type="text" name='fullname' onChange={onInputChanged} value={info1.fullname} placeholder='Full Name' />
+                                <input className='my-2' type="text" name='fullname' onChange={onInputChanged} value={info1.fullname} placeholder='Full Name' ref={fullnameReference} />
                                 {errorData == 1 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Full name. </div> : ''}
 
 
@@ -118,28 +145,28 @@ const ResgisterPage = (props, args) => {
 
                             <div className="col-lg-12 registerInput">
 
-                                <input className='my-2' type="text" name='username' onChange={onInputChanged} value={info1.username} placeholder='User Name' />
+                                <input className='my-2' type="text" name='username' onChange={onInputChanged} value={info1.username} placeholder='User Name' ref={usernameReference}/>
                                 {errorData == 2 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Username. </div> : ''}
 
                             </div>
 
                             <div className="col-lg-12 registerInput">
 
-                                <input className='my-2' type="email" name='email' onChange={onInputChanged} value={info1.email} placeholder='Email' />
+                                <input className='my-2' type="email" name='email' onChange={onInputChanged} value={info1.email} placeholder='Email' ref={emailReference}/>
                                 {errorData == 3 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Email. </div> : ''}
 
                             </div>
 
                             <div className="col-lg-6 registerInput">
 
-                                <input className='my-2' type="password" name='password' onChange={onInputChanged} value={info1.password} placeholder='Password' />
+                                <input className='my-2' type="password" name='password' onChange={onInputChanged} value={info1.password} placeholder='Password' ref={passwordReference}/>
                                 {errorData == 4 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password. </div> : ''}
 
                             </div>
 
                             <div className="col-lg-6 registerInput">
 
-                                <input className='my-2' type="password" name='confirmpassword' onChange={onInputChanged} value={info1.confirmpassword} placeholder='Repeat Password' />
+                                <input className='my-2' type="password" name='confirmpassword' onChange={onInputChanged} value={info1.confirmpassword} placeholder='Repeat Password' ref={confirmpasswordReference}/>
                                 {errorData == 5 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Confirm Password. </div> : ''}
 
                             </div>
@@ -185,7 +212,7 @@ const ResgisterPage = (props, args) => {
 
                                         </div>
                                     </div>
-                                    {errorData == 7 ? <div className="errorMessage ml-3" style={{ color: "red" }}> Please accept Terms & Conditions. </div> : ''}
+                                    {errorData == 7 ? <div className="errorMessage ml-3 my-lg-3 mt-md-3 mt-3" style={{ color: "red" }}> Please accept Terms & Conditions. </div> : ''}
 
                                 </div>
 

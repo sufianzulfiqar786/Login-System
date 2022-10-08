@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Row, Col, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Routes, Route, useNavigate, useHistory } from 'react-router-dom';
 
@@ -25,14 +25,28 @@ const LoginPage = (props, args) => {
 
     const [errorData, setErrorData] = useState("0");
 
+    const usernameReferenceLogin = useRef(null);
+    const emailReferenceLogin = useRef(null);
+    const passwordReferenceLogin = useRef(null);
+
+ 
 
     const Login = () => {
 
         console.log(info1)
 
-       if (!info1.loginusername) setErrorData(1);
-        else if (!info1.loginemail) setErrorData(2);
-        else if (!info1.loginpassword) setErrorData(3);
+        if (!info1.loginusername) {
+            setErrorData(1)
+            usernameReferenceLogin.current.focus()
+        }
+        else if (!info1.loginemail) {
+            setErrorData(2)
+            emailReferenceLogin.current.focus()
+        }
+        else if (!info1.loginpassword) {
+            setErrorData(3)
+            passwordReferenceLogin.current.focus()
+        }
         else {
             setErrorData('');
             console.log("hello")
@@ -45,35 +59,35 @@ const LoginPage = (props, args) => {
     const Register = () => {
 
 
-     
-
-      console.log("hello")
-
-      navigate("/")
-
-  };
 
 
-  const onInputChanged = (event) => {
-    const targetName = event.target.name;
+        console.log("hello")
 
-    if (targetName == "pleaseCheckbox") {
-        const targetValue = event.target.checked;
-        setInfo1((info1) => ({
-            ...info1,
-            [targetName]: targetValue
-        }));
-    } else {
-        const targetValue = event.target.value;
-        setInfo1((info1) => ({
-            ...info1,
-            [targetName]: targetValue
-        }));
-    }
+        navigate("/")
+
+    };
 
 
-    console.log(info1)
-};
+    const onInputChanged = (event) => {
+        const targetName = event.target.name;
+
+        if (targetName == "pleaseCheckbox") {
+            const targetValue = event.target.checked;
+            setInfo1((info1) => ({
+                ...info1,
+                [targetName]: targetValue
+            }));
+        } else {
+            const targetValue = event.target.value;
+            setInfo1((info1) => ({
+                ...info1,
+                [targetName]: targetValue
+            }));
+        }
+
+
+        console.log(info1)
+    };
 
 
     return (
@@ -105,32 +119,32 @@ const LoginPage = (props, args) => {
 
                             </div>
 
-                            
+
 
                             <div className="col-lg-12 registerInput">
-                                <input className='my-2' type="text" name='loginusername' placeholder='Username' onChange={onInputChanged} value={info1.loginusername} />
+                                <input className='my-2' type="text" name='loginusername' placeholder='Username' onChange={onInputChanged} value={info1.loginusername} ref={usernameReferenceLogin} />
                                 {errorData == 1 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Username. </div> : ''}
 
                             </div>
 
                             <div className="col-lg-12 registerInput">
-                                <input className='my-2' type="loginemail" name='loginemail' placeholder='Email' onChange={onInputChanged} value={info1.loginemail} />
+                                <input className='my-2' type="loginemail" name='loginemail' placeholder='Email' onChange={onInputChanged} value={info1.loginemail} ref={emailReferenceLogin} />
                                 {errorData == 2 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Email. </div> : ''}
 
                             </div>
 
                             <div className="col-lg-12 mb-4 registerInput">
-                                <input className='my-2' type="loginpassword" name='loginpassword' placeholder='Password' onChange={onInputChanged} value={info1.loginpassword} />
+                                <input className='my-2' type="loginpassword" name='loginpassword' placeholder='Password' onChange={onInputChanged} value={info1.loginpassword} ref={passwordReferenceLogin}/>
                                 {errorData == 3 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password. </div> : ''}
 
                             </div>
-                            
 
 
-                            
 
 
-                            
+
+
+
 
 
                         </div>
