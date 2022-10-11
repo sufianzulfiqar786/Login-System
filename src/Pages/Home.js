@@ -5,12 +5,36 @@ import '../CSS/Home.css'
 
 const Home = () => {
 
-  let navigateAfter5mint = useNavigate()
-  useEffect(() => {
-    setTimeout(() => {
-      navigateAfter5mint("/")
-    }, 5000);
-  })
+  // let navigateAfter5mint = useNavigate()
+  let navigateLogout = useNavigate()
+  let navigate1 = useNavigate()
+
+  
+  const userinfo = JSON.parse(localStorage.getItem("user"))
+
+    useEffect(() => {
+        if (!userinfo) {
+            navigate1("/loginPage")
+        }
+    }, [userinfo])
+
+
+
+
+     // useEffect(() => {
+  //   setTimeout(() => {
+  //     // navigateAfter5mint("/")
+  //   }, 5000);
+  // })
+
+
+  const logout = () => {
+    console.log("Hello")
+    localStorage.removeItem("user")
+    navigateLogout("/")
+}
+
+
   return (
     <>
 
@@ -32,10 +56,20 @@ const Home = () => {
 
           <div className="col-12 d-flex align-items-center justify-content-center text-center">
 
-            <h1>Your are Successfully <br /> <h2>entered data</h2>  <h5>Redirect to main page in 5 Second</h5> </h1>
+            <h1>Your are Successfully Login </h1>
+
+          </div>
+          <div className="col-12 d-flex align-items-center justify-content-center text-center">
+
+          <h4>{userinfo.email}</h4>
 
           </div>
 
+          <div className="col-12 mt-3 d-flex align-items-center justify-content-center text-center">
+
+<button className='loginSytemBtn' onClick={logout}>Log out</button>
+
+</div>
 
         </div>
 

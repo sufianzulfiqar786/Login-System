@@ -7,6 +7,7 @@ import '../CSS/RadioMaleFemale.css'
 import '../CSS/Checkbox.css'
 import FontAwesome from 'react-fontawesome'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
 // import RegistrationPage from '../Pages/RegistrationPage';
 
 
@@ -36,6 +37,7 @@ const ResgisterPage = (props, args) => {
     const fullnameReference = useRef(null);
     const usernameReference = useRef(null);
     const emailReference = useRef(null);
+    const numberReference = useRef(null);
     const passwordReference = useRef(null);
     const confirmpasswordReference = useRef(null);
     const fav_languageReference = useRef(null);
@@ -76,7 +78,7 @@ const ResgisterPage = (props, args) => {
     const Resgister = () => {
 
         console.log(info1)
-        
+
 
         if (!info1.fullname) {
             setErrorData(1)
@@ -94,49 +96,50 @@ const ResgisterPage = (props, args) => {
             setErrorData(15)
             emailReference.current.focus()
         }
-        else if (!info1.password )            
-            {
-                setErrorData(4)
-            passwordReference.current.focus()
-            }
 
-            else if (!info1.password.match(/[A-Z]/)   )            
-            {
-                setErrorData(9)
-            passwordReference.current.focus()
-            }
-
-            else if (!info1.password.match(/[a-z]/)   )            
-            {
-                setErrorData(10)
-            passwordReference.current.focus()
-            }
-
-            else if (!info1.password.match(/[0-9]/)   )            
-            {
-                setErrorData(11)
-            passwordReference.current.focus()
-            }
-
-            else if (info1.password.length < 8 )            
-            {
-                setErrorData(16)
-            passwordReference.current.focus()
-            }
-
-            
-        
-        else if (!info1.confirmpassword) {
-            setErrorData(5)
-            confirmpasswordReference.current.focus()
+        else if (!info1.number) {
+            setErrorData(18)
+            numberReference.current.focus()
         }
 
+        // else if (!info1.password) {
+        //     setErrorData(4)
+        //     passwordReference.current.focus()
+        // }
 
-        else if (info1.password !== info1.confirmpassword) {
-            console.log("Confirm")
-            setErrorData(8)
-            passwordReference.current.focus()
-        }
+        // else if (!info1.password.match(/[A-Z]/)) {
+        //     setErrorData(9)
+        //     passwordReference.current.focus()
+        // }
+
+        // else if (!info1.password.match(/[a-z]/)) {
+        //     setErrorData(10)
+        //     passwordReference.current.focus()
+        // }
+
+        // else if (!info1.password.match(/[0-9]/)) {
+        //     setErrorData(11)
+        //     passwordReference.current.focus()
+        // }
+
+        // else if (info1.password.length < 8) {
+        //     setErrorData(16)
+        //     passwordReference.current.focus()
+        // }
+
+
+
+        // else if (!info1.confirmpassword) {
+        //     setErrorData(5)
+        //     confirmpasswordReference.current.focus()
+        // }
+
+
+        // else if (info1.password !== info1.confirmpassword) {
+        //     console.log("Confirm")
+        //     setErrorData(8)
+        //     passwordReference.current.focus()
+        // }
         else if (!info1.fav_language) {
             setErrorData(6)
             fav_languageReference.current.focus()
@@ -149,32 +152,57 @@ const ResgisterPage = (props, args) => {
             setErrorData('');
             console.log("hello")
 
+            const data = {"role_id": 2, "first_name": info1.fullname, "last_name": info1.username, "email": info1.email, "phone_number": info1.number, "gender": info1.fav_language };
+            const responsr = axios
+                .post('https://admin.dhikrfikr.com/public/api/user_signup', data)
+                .then((response) => {
+                    console.log(response);
+                    // event.target.reset();
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
+
             navigate("/loginpage")
         }
+
+
+
+        // Post Data
+
+        // const FirstName = info1.fullname;
+        // const LastName = "hello";
+
+        // formData.append("first_name", FirstName);
+
+       
+
+
+
+
 
     };
 
 
 
-    const togglePassword =()=>{
-        if(passwordType==="password")
-        {
-         setPasswordType("text")
-         return;
-        }
-        setPasswordType("password")
-      }
+    // const togglePassword = () => {
+    //     if (passwordType === "password") {
+    //         setPasswordType("text")
+    //         return;
+    //     }
+    //     setPasswordType("password")
+    // }
 
 
-      const toggleConfirmPassword =()=>{
-        if(confirmPasswordType==="password")
-        {
-         setConfirmPasswordType("text")
-         return;
-        }
-        setConfirmPasswordType("password")
-      }
-   
+    // const toggleConfirmPassword = () => {
+    //     if (confirmPasswordType === "password") {
+    //         setConfirmPasswordType("text")
+    //         return;
+    //     }
+    //     setConfirmPasswordType("password")
+    // }
+
 
     return (
         <>
@@ -207,7 +235,7 @@ const ResgisterPage = (props, args) => {
 
                             <div className="col-lg-12 registerInput">
 
-                                <input className='my-2' type="text" name='fullname' onChange={onInputChanged} value={info1.fullname} placeholder='Full Name' ref={fullnameReference} />
+                                <input className='my-2' type="text" name='fullname' onChange={onInputChanged} value={info1.fullname} placeholder='First Name' ref={fullnameReference} />
                                 {errorData == 1 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Full name. </div> : ''}
 
 
@@ -215,7 +243,7 @@ const ResgisterPage = (props, args) => {
 
                             <div className="col-lg-12 registerInput">
 
-                                <input className='my-2' type="text" name='username' onChange={onInputChanged} value={info1.username} placeholder='User Name' ref={usernameReference} />
+                                <input className='my-2' type="text" name='username' onChange={onInputChanged} value={info1.username} placeholder='Last Name' ref={usernameReference} />
 
                                 {errorData == 2 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Username. </div> : ''}
 
@@ -229,62 +257,67 @@ const ResgisterPage = (props, args) => {
 
                             </div>
 
-                            <div className="col-lg-6 registerInput">
+{/* NUmber  */}
+                            <div className="col-lg-12 registerInput">
+
+                                <input className='my-2' type="number" name='number' onChange={onInputChanged} value={info1.number} placeholder='Phone' ref={numberReference} />
+                                {errorData == 18 ? <div className="errorMessage" style={{ color: "red" }}> Please Phone Number. </div> : ''}
+                                
+                            </div>
+
+                            {/* <div className="col-lg-6 registerInput"> */}
 
                                 {/* <input className='my-2' type="password" name='password' onChange={onInputChanged} value={info1.password} placeholder='Password' ref={passwordReference} /> */}
-                                
-                                
-                                <div className='RegisterPasswordPositionUpper'>
-                                <input className='my-2' type={passwordType} name='password' placeholder='Password' onChange={onInputChanged} value={info1.password} ref={passwordReference}/>
-                                
-                                
-                                <div className=" RegisterPasswordPositionBottom input-group-btn " >
-                                    <h1 className="eyeBtn btn " onClick={togglePassword} >
-                                        <p  style={{ width: "10px", height: "5px", color:"Black" ,border:"none"}}>{passwordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
-                                    </h1>
-                                </div>
-                                </div>
 
-                                
-                                
-                                
-                                {errorData == 4 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password with Captial, Lower, and Numbers. </div> : ''}
-                                {errorData == 9 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "A-Z" Capital Alphabet in Password. </div> : ''}
-                                {errorData == 10 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "a-z" Lower Alphabet in Password. </div> : ''}
-                                {errorData == 11 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "0-9" Number in Password. </div> : ''}
-                                {errorData == 16 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password Length Greater than "8". </div> : ''}
 
-                            </div>
+                                {/* <div className='RegisterPasswordPositionUpper'>
+                                    <input className='my-2' type={passwordType} name='password' placeholder='Password' onChange={onInputChanged} value={info1.password} ref={passwordReference} />
 
-                            <div className="col-lg-6 registerInput">
+
+                                    <div className=" RegisterPasswordPositionBottom input-group-btn " >
+                                        <h1 className="eyeBtn btn " onMouseUp={togglePassword} onMouseDown={togglePassword} >
+                                            <p style={{ width: "10px", height: "5px", color: "Black", border: "none" }}>{passwordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
+                                        </h1>
+                                    </div>
+                                </div> */}
+
+                                {/* {errorData == 4 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password with Captial, Lower, and Numbers. </div> : ''} */}
+                                {/* {errorData == 9 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "A-Z" Capital Alphabet in Password. </div> : ''} */}
+                                {/* {errorData == 10 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "a-z" Lower Alphabet in Password. </div> : ''} */}
+                                {/* {errorData == 11 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "0-9" Number in Password. </div> : ''} */}
+                                {/* {errorData == 16 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password Length Greater than "8". </div> : ''} */}
+
+                            {/* </div> */}
+
+                            {/* <div className="col-lg-6 registerInput"> */}
 
                                 {/* <input className='my-2' type="password" name='confirmpassword' onChange={onInputChanged} value={info1.confirmpassword} placeholder='Repeat Password' ref={confirmpasswordReference} /> */}
-                                
-                                
-                                
-                                <div className='RegisterPasswordPositionUpper'>
-                                <input className='my-2' type={confirmPasswordType} name='confirmpassword' placeholder='Confirm Password' onChange={onInputChanged} value={info1.confirmpassword} ref={confirmpasswordReference}/>
-                                
-                                
-                                <div className=" RegisterPasswordPositionBottom input-group-btn " >
-                                    <h1 className="eyeBtn btn " onClick={toggleConfirmPassword} >
-                                        <p  style={{ width: "10px", height: "5px", color:"Black" ,border:"none"}}>{confirmPasswordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
-                                    </h1>
-                                </div>
-                                </div>
 
 
-                                
-                                
-                                {errorData == 5 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Confirm Password. </div> : ''}
-                                {errorData == 12 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "A-Z" Capital Alphabet in Password. </div> : ''}
-                                {errorData == 13 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "a-z" Lower Alphabet in Password. </div> : ''}
-                                {errorData == 14 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "0-9" Number in Password. </div> : ''}
-                                {errorData == 17 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password Length Greater than "8". </div> : ''}
 
-                                {errorData == 8 ? <div className="errorMessage" style={{ color: "red" }}> Password and Confirm Password Does not Match. </div> : ''}
+                                {/* <div className='RegisterPasswordPositionUpper'>
+                                    <input className='my-2' type={confirmPasswordType} name='confirmpassword' placeholder='Confirm Password' onChange={onInputChanged} value={info1.confirmpassword} ref={confirmpasswordReference} />
 
-                            </div>
+
+                                    <div className=" RegisterPasswordPositionBottom input-group-btn " >
+                                        <h1 className="eyeBtn btn " onMouseUp={toggleConfirmPassword} onMouseDown={toggleConfirmPassword} >
+                                            <p style={{ width: "10px", height: "5px", color: "Black", border: "none" }}>{confirmPasswordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
+                                        </h1>
+                                    </div>
+                                </div> */}
+
+
+
+
+                                {/* {errorData == 5 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Confirm Password. </div> : ''} */}
+                                {/* {errorData == 12 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "A-Z" Capital Alphabet in Password. </div> : ''} */}
+                                {/* {errorData == 13 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "a-z" Lower Alphabet in Password. </div> : ''} */}
+                                {/* {errorData == 14 ? <div className="errorMessage" style={{ color: "red" }}> Please enter "0-9" Number in Password. </div> : ''} */}
+                                {/* {errorData == 17 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password Length Greater than "8". </div> : ''} */}
+
+                                {/* {errorData == 8 ? <div className="errorMessage" style={{ color: "red" }}> Password and Confirm Password Does not Match. </div> : ''} */}
+
+                            {/* </div> */}
 
 
                             <div className="col-lg-6 pl-2 pr-0">
@@ -363,6 +396,7 @@ const ResgisterPage = (props, args) => {
                         <b>Full Name:</b> <p>{info1.fullname || ""}</p><br />
                         <b>Username:</b> <p>{info1.username || ""}</p><br />
                         <b>Email:</b> <p>{info1.email || ""}</p><br />
+                        <b>Number:</b> <p>{info1.number || ""}</p><br />
                         <b>Password:</b> <p>{info1.password || ""}</p><br />
                         <b>Confirm Password:</b> <p>{info1.confirmpassword || ""}</p><br />
                         <b>Gender:</b> <p>{info1.fav_language || ""}</p><br />

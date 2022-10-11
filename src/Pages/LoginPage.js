@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Row, Col, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Routes, Route, useNavigate, useHistory } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import '../CSS/RadioMaleFemale.css'
 import '../CSS/Checkbox.css'
 import FontAwesome from 'react-fontawesome'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
 // import RegistrationPage from '../Pages/RegistrationPage';
 
 
@@ -21,18 +22,30 @@ const LoginPage = (props, args) => {
 
     let navigate = useNavigate()
 
+    let navigate1 = useNavigate()
+
     const [info1, setInfo1] = useState({});
 
     const [errorData, setErrorData] = useState("0");
 
     const [passwordType, setPasswordType] = useState("password");
-    
+
+    const [loginError, setLoginError] = useState("");
+
 
     const usernameReferenceLogin = useRef(null);
     const emailReferenceLogin = useRef(null);
     const passwordReferenceLogin = useRef(null);
 
- 
+    const userinfo = localStorage.getItem("user")
+    useEffect(() => {
+        if (userinfo) {
+            navigate1("/home")
+        }
+    }, [userinfo])
+
+   
+
 
     const Login = () => {
 
@@ -58,7 +71,30 @@ const LoginPage = (props, args) => {
             setErrorData('');
             console.log("hello")
 
-            navigate("/Home")
+
+            const data = { "email": info1.loginemail, "password": info1.loginpassword };
+            const responsr = axios
+                .post('https://admin.dhikrfikr.com/public/api/user_login', data)
+                .then((response) => {
+                    console.log(response.data.user);
+                    // event.target.reset();
+                    if (response.data.token) {
+                        localStorage.setItem("user",JSON.stringify( response.data.user))
+                        navigate("/Home")
+                    }
+                    else {
+                        // alert(response.data.message + " Hello")
+                        setLoginError(response.data.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
+
+
+
+
         }
 
     };
@@ -74,7 +110,7 @@ const LoginPage = (props, args) => {
 
     };
 
-    
+
 
 
     const onInputChanged = (event) => {
@@ -99,14 +135,16 @@ const LoginPage = (props, args) => {
     };
 
 
-    const togglePassword =()=>{
-        if(passwordType==="password")
-        {
-         setPasswordType("text")
-         return;
+    const togglePassword = () => {
+        if (passwordType === "password") {
+            setPasswordType("text")
+            return;
         }
         setPasswordType("password")
-      }
+
+
+
+    }
 
 
     return (
@@ -118,7 +156,6 @@ const LoginPage = (props, args) => {
 
 
                 <div className="row row1stloginSystemBody ">
-
 
                     <div className="col-lg-5 col-md-5  col1strow1stloginSystemBody text-light">
 
@@ -154,18 +191,19 @@ const LoginPage = (props, args) => {
                             </div>
 
                             <div className=" loginPasswordPositionParent col-lg-12 mb-4 registerInput">
-                               
-                               <div className='loginPasswordPositionUpper'>
-                                <input className='my-2' type={passwordType} name='loginpassword' placeholder='Password' onChange={onInputChanged} value={info1.loginpassword} ref={passwordReferenceLogin}/>
-                                
-                                
-                                <div className=" loginPasswordPositionBottom input-group-btn " >
-                                    <h1 className="eyeBtn btn " onClick={togglePassword} >
-                                        <p  style={{ width: "10px", height: "5px", color:"Black" ,border:"none"}}>{passwordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
-                                    </h1>
-                                </div>
+
+                                <div className='loginPasswordPositionUpper'>
+                                    <input className='my-2' type={passwordType} name='loginpassword' placeholder='Password' onChange={onInputChanged} value={info1.loginpassword} ref={passwordReferenceLogin} />
+
+
+                                    <div className=" loginPasswordPositionBottom input-group-btn " >
+                                        <h1 className="eyeBtn btn " onMouseUp={togglePassword} onMouseDown={togglePassword} onTouchStart={togglePassword} ontouchend={togglePassword} >
+                                            <p style={{ width: "10px", height: "5px", color: "Black", border: "none" }}>{passwordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
+                                        </h1>
+                                    </div>
                                 </div>
                                 {errorData == 3 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password. </div> : ''}
+                                <p style={{ color: "red" }} >{loginError}</p>
 
                             </div>
 
