@@ -169,12 +169,7 @@ const ResgisterPage = (props, args) => {
 
 
 
-        // Post Data
-
-        // const FirstName = info1.fullname;
-        // const LastName = "hello";
-
-        // formData.append("first_name", FirstName);
+      
 
        
 

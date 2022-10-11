@@ -37,7 +37,9 @@ const LoginPage = (props, args) => {
     const emailReferenceLogin = useRef(null);
     const passwordReferenceLogin = useRef(null);
 
+
     const userinfo = localStorage.getItem("user")
+    
     useEffect(() => {
         if (userinfo) {
             navigate1("/home")
@@ -81,6 +83,7 @@ const LoginPage = (props, args) => {
                     if (response.data.token) {
                         localStorage.setItem("user",JSON.stringify( response.data.user))
                         navigate("/Home")
+                        // navigate("/Home")  after login move to where
                     }
                     else {
                         // alert(response.data.message + " Hello")
