@@ -3,6 +3,7 @@ import './App.css';
 import ResgisterPage from './Pages/ResgisterPage'
 import LoginPage from './Pages/LoginPage';
 import Home from './Pages/Home';
+import Extra from './Pages/Extra';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
@@ -10,7 +11,7 @@ function App() {
   return (
   <>
   
-
+  
 
 
 <BrowserRouter>

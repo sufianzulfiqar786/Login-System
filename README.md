@@ -1,14 +1,14 @@
-1st Commit is just Design.
+    1st Commit is just Design.
 
 
 
 
-Validation:
+    Validation:
 
 
-const [info1, setInfo1] = useState({});
+    const [info1, setInfo1] = useState({});
 
-const [errorData, setErrorData] = useState("0");
+    const [errorData, setErrorData] = useState("0");
 
 
     <input className='my-2' type="text" name='fullname' onChange={onInputChanged} value={info1.fullname} placeholder='Full Name' />

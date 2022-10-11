@@ -13,8 +13,37 @@
     transform: scale(1.2)
 }
 
+.fa-eye, .fa-eye-slash{
+    font-size: 20px;
+    margin-top: 6px;
+}
+
+
+
 @media (min-width:1003px) and (max-width:100003px){
 
+
+    .RegisterPasswordPositionUpper{
+        position: relative;
+       
+    }
+    
+    .RegisterPasswordPositionBottom{
+        position: absolute;
+        margin-left: 87%;
+        margin-top: -17%;
+    }
+
+    .loginPasswordPositionUpper{
+        position: relative;
+       
+    }
+    
+    .loginPasswordPositionBottom{
+        position: absolute;
+        margin-left: 93.7%;
+        margin-top: -8%;
+    }
 
     .loginSytemBtn{
         width: 200px;
@@ -91,6 +120,30 @@
 }
 
 @media (min-width:470px) and (max-width:1003px){
+
+
+    .RegisterPasswordPositionUpper{
+        position: relative;
+       
+    }
+    
+    .RegisterPasswordPositionBottom{
+        position: absolute;
+        margin-left: 88%;
+        margin-top: -15%;
+    }
+
+
+    .loginPasswordPositionUpper{
+        position: relative;
+       
+    }
+    
+    .loginPasswordPositionBottom{
+        position: absolute;
+        margin-left: 90%;
+        margin-top: -13%;
+    }
 
     .loginSytemBtn{
         width: 150px;
@@ -169,6 +222,28 @@
 }
 
 @media (min-width:0px) and (max-width:470px){
+
+    .RegisterPasswordPositionUpper{
+        position: relative;
+       
+    }
+    
+    .RegisterPasswordPositionBottom{
+        position: absolute;
+        margin-left: 88%;
+        margin-top: -15.5%;
+    }
+
+    .loginPasswordPositionUpper{
+        position: relative;
+       
+    }
+    
+    .loginPasswordPositionBottom{
+        position: absolute;
+        margin-left: 88%;
+        margin-top: -15%;
+    }
 
     .loginSytemBtn{
         width: 150px;

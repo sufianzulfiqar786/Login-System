@@ -25,6 +25,9 @@ const LoginPage = (props, args) => {
 
     const [errorData, setErrorData] = useState("0");
 
+    const [passwordType, setPasswordType] = useState("password");
+    
+
     const usernameReferenceLogin = useRef(null);
     const emailReferenceLogin = useRef(null);
     const passwordReferenceLogin = useRef(null);
@@ -41,6 +44,10 @@ const LoginPage = (props, args) => {
         }
         else if (!info1.loginemail) {
             setErrorData(2)
+            emailReferenceLogin.current.focus()
+        }
+        else if (!info1.loginemail.match(/[@]/)) {
+            setErrorData(4)
             emailReferenceLogin.current.focus()
         }
         else if (!info1.loginpassword) {
@@ -67,6 +74,8 @@ const LoginPage = (props, args) => {
 
     };
 
+    
+
 
     const onInputChanged = (event) => {
         const targetName = event.target.name;
@@ -88,6 +97,16 @@ const LoginPage = (props, args) => {
 
         console.log(info1)
     };
+
+
+    const togglePassword =()=>{
+        if(passwordType==="password")
+        {
+         setPasswordType("text")
+         return;
+        }
+        setPasswordType("password")
+      }
 
 
     return (
@@ -130,11 +149,22 @@ const LoginPage = (props, args) => {
                             <div className="col-lg-12 registerInput">
                                 <input className='my-2' type="loginemail" name='loginemail' placeholder='Email' onChange={onInputChanged} value={info1.loginemail} ref={emailReferenceLogin} />
                                 {errorData == 2 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Email. </div> : ''}
+                                {errorData == 4 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Valid Email. </div> : ''}
 
                             </div>
 
-                            <div className="col-lg-12 mb-4 registerInput">
-                                <input className='my-2' type="loginpassword" name='loginpassword' placeholder='Password' onChange={onInputChanged} value={info1.loginpassword} ref={passwordReferenceLogin}/>
+                            <div className=" loginPasswordPositionParent col-lg-12 mb-4 registerInput">
+                               
+                               <div className='loginPasswordPositionUpper'>
+                                <input className='my-2' type={passwordType} name='loginpassword' placeholder='Password' onChange={onInputChanged} value={info1.loginpassword} ref={passwordReferenceLogin}/>
+                                
+                                
+                                <div className=" loginPasswordPositionBottom input-group-btn " >
+                                    <h1 className="eyeBtn btn " onClick={togglePassword} >
+                                        <p  style={{ width: "10px", height: "5px", color:"Black" ,border:"none"}}>{passwordType === "password" ? <i class="fa fa-eye-slash" aria-hidden="true"></i> : <i class="fa fa-eye" aria-hidden="true"></i>}</p>
+                                    </h1>
+                                </div>
+                                </div>
                                 {errorData == 3 ? <div className="errorMessage" style={{ color: "red" }}> Please enter Password. </div> : ''}
 
                             </div>
